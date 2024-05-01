@@ -16,7 +16,7 @@ timezone: America/Guatemala
 
 title: c-137 Lab # the main title
 
-tagline: by mitzepx01 # it will display as the sub-title
+tagline: by lr2t9iz # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
@@ -73,7 +73,7 @@ theme_mode: # [light|dark]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/07b38fd1-20cb-4f97-9a10-d866ee6341a4
+avatar: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/2e4981c5-f526-4cba-a8c4-4275f6c63cfc
 
 # boolean type, the global switch for TOC in posts.
 toc: true
