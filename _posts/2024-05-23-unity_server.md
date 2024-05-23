@@ -1,6 +1,6 @@
 ---
 title: Building a Cybersecurity Detection Lab - UNITY
-date: 2024-05-21 06:00:00 -0600
+date: 2024-05-23 06:00:00 -0600
 categories: [blueteam, tools]
 tags: [monitoring, low, dev]
 image:
