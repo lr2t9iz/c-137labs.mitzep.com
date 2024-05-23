@@ -1,15 +1,15 @@
 ---
 title: Building UN1TY, a Cybersecurity Detection Lab
 date: 2024-05-23 06:00:00 -0600
-categories: [blueteam, tools]
-tags: [monitoring, low, dev]
+categories: [blueteam, tool]
+tags: [monitoring, difficulty:low, prod]
 image:
-  path: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/18d749a0-d814-48cc-82db-bee422e501a0
+  path: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/69f0c14b-29f2-4659-9b1e-41e7b0452b1a
 ---
 
 In cybersecurity, having an efficient detection platform is critical to identifying and responding to threats. This blog will guide you through two essential steps to build your own detection lab (Client-Server Model): server installation, collector integration.
 
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/01fe11b4-84c5-4d0e-abb1-5938977ac6bc)
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/89cb2e45-56b9-4ded-b125-b3541b24e94b)
 
 ## UN1TY Server Requirements
 **Hardware**:
@@ -93,7 +93,7 @@ curl -XGET -k 'https://<HOST-IP>:8220/api/status'
 - [Installing Elastic Agent](https://www.elastic.co/guide/en/fleet/current/install-fleet-managed-elastic-agent.html#elastic-agent-installation-steps)
 ### For Windows
 - ☰ > Management > Fleet > Agents > Add agent
-- `Agent policy - WIN` for Windows and click on ***Create policy***
+- `Collector policy - WIN` for Windows and click on ***Create policy***
 - Copy windows Command and add `--insecure` to the end of the command
 ```powershell
 $ProgressPreference = 'SilentlyContinue'
@@ -105,7 +105,7 @@ cd elastic-agent-8.13.4-windows-x86_64
 ```
 ### For Linux
 - ☰ > Management > Fleet > Agents > Add agent
-- Click on ***Create new agent policy***, `Agent policy - LIN` for Linux and click on ***Create policy***
+- Click on ***Create new agent policy***, `Collector policy - LIN` for Linux and click on ***Create policy***
 - Copy Linux Tar Command and add `--insecure` to the end of the command
 ```sh
 curl -L -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.13.4-linux-x86_64.tar.gz
@@ -118,6 +118,6 @@ sudo ./elastic-agent install --url=https://<HOST-IP>:8220 --enrollment-token=***
 ## UN1TY Results
 - Finally, we will have the following result
 - ☰ > Management > Fleet > Agents
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/acf29dbf-b0ea-4116-a90d-1a98e64a7f94)
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/7b8575ab-3400-46ff-bedd-8f3b5ef94767)
 - ☰ > Security > Explore > Hosts > All Hosts
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/affc0cbf-2671-4eb2-8031-fc9c7feb23c5)
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/ea1f8b5e-91c2-4018-8b2c-d14758ed0a9e)
