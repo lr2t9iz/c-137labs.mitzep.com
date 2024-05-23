@@ -1,19 +1,19 @@
 ---
-title: Building a Cybersecurity Detection Lab - Unity
+title: Building a Cybersecurity Detection Lab - UNITY
 date: 2024-05-21 06:00:00 -0600
 categories: [blueteam, tools]
 tags: [monitoring, low, dev]
 image:
-  path: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/7ca00a6e-63c6-4726-97b4-8ef5ec3e7b68
+  path: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/18d749a0-d814-48cc-82db-bee422e501a0
 ---
 
 In cybersecurity, having an efficient detection platform is critical to identifying and responding to threats. This blog will guide you through three essential steps to build your own detection lab: installation, integration and testing.
 
 ## Requirements
-**Hardware/Hyper-V**:
- - 2 cores of CPU,
- - 4 GB of RAM, and 
- - 256 GB of disk space.
+**Hardware/Hyper-V/AWS-EC2(t2.large)**:
+ - 2 cores of CPU
+ - 8 GB of RAM 
+ - 256 GB of Disk space
 
 **Base Operating System**: [Ubuntu Server](https://ubuntu.com/download/server)
 
@@ -59,12 +59,63 @@ sudo systemctl daemon-reload
 sudo systemctl enable kibana.service
 sudo systemctl start kibana.service
 ```
-- Test > put `http://<HOST-IP>:5601/` on your favorite browser, change `<HOST_IP>` with your host-ip
+- Test > put `http://<HOST-IP>:5601` on your favorite browser, change `<HOST_IP>` with your host-ip
 - Fill your credentials and enter
 - And click on "Explore on my own"
 
-### Fleet Server as Agent Management**
+### Fleet Server as Agent Management
+[Installing Fleet Server](https://www.elastic.co/guide/en/fleet/current/install-fleet-managed-elastic-agent.html#elastic-agent-installation-steps): After logging into kibana, follow these steps to install fleet server.
+- ☰ > Management > Fleet > Agents > Add a Fleet Server
+- Fill Name and URL
+  - Name: `main`
+  - URL: `https://<HOST-IP>:8220`
+- Copy Linux Tar Command and add `--fleet-server-es-insecure` to the end of the command
+```sh
+curl -L -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.13.4-linux-x86_64.tar.gz
+tar xzvf elastic-agent-8.13.4-linux-x86_64.tar.gz
+cd elastic-agent-8.13.4-linux-x86_64
+sudo ./elastic-agent install \
+  --fleet-server-es=https://<HOST-IP>:9200 \
+  --fleet-server-service-token=***** \
+  --fleet-server-policy=fleet-server-policy \
+  --fleet-server-es-ca-trusted-fingerprint=***** \
+  --fleet-server-port=8220 --fleet-server-es-insecure
+```
+- Test
+```sh
+curl -XGET -k 'https://<HOST-IP>:8220/api/status'
+# > {"name":"fleet-server","status":"HEALTHY"}
+```
 
 ## Integration
+- [Installing Elastic Agent](https://www.elastic.co/guide/en/fleet/current/install-fleet-managed-elastic-agent.html#elastic-agent-installation-steps)
+### For Windows
+- ☰ > Management > Fleet > Agents > Add agent
+- `Agent policy - WIN` for Windows and click on ***Create policy***
+- Copy windows Command and add `--insecure` to the end of the command
+```powershell
+$ProgressPreference = 'SilentlyContinue'
+Invoke-WebRequest -Uri https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.13.4-windows-x86_64.zip -OutFile elastic-agent-8.13.4-windows-x86_64.zip
+Expand-Archive .\elastic-agent-8.13.4-windows-x86_64.zip -DestinationPath .
+cd elastic-agent-8.13.4-windows-x86_64
+.\elastic-agent.exe install --url=https://<IP-HOS>:8220 --enrollment-token=***** --insecure
+# > Elastic Agent has been successfully installed.
+```
+### For Linux
+- ☰ > Management > Fleet > Agents > Add agent
+- Click on ***Create new agent policy***, `Agent policy - LIN` for Linux and click on ***Create policy***
+- Copy Linux Tar Command and add `--insecure` to the end of the command
+```sh
+curl -L -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.13.4-linux-x86_64.tar.gz
+tar xzvf elastic-agent-8.13.4-linux-x86_64.tar.gz
+cd elastic-agent-8.13.4-linux-x86_64
+sudo ./elastic-agent install --url=https://<HOST-IP>:8220 --enrollment-token=***** --insecure
+# > Elastic Agent has been successfully installed.
+```
 
 ## Testing
+- Finally, we will have the following result
+- ☰ > Management > Fleet > Agents
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/acf29dbf-b0ea-4116-a90d-1a98e64a7f94)
+- ☰ > Security > Explore > Hosts > All Hosts
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/affc0cbf-2671-4eb2-8031-fc9c7feb23c5)
