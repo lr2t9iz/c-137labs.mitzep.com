@@ -7,17 +7,19 @@ image:
   path: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/18d749a0-d814-48cc-82db-bee422e501a0
 ---
 
-In cybersecurity, having an efficient detection platform is critical to identifying and responding to threats. This blog will guide you through three essential steps to build your own detection lab: installation, integration and testing.
+In cybersecurity, having an efficient detection platform is critical to identifying and responding to threats. This blog will guide you through two essential steps to build your own detection lab (Client-Server Model): server installation, collector integration.
 
-## Requirements
-**Hardware/Hyper-V/AWS-EC2(t2.large)**:
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/01fe11b4-84c5-4d0e-abb1-5938977ac6bc)
+
+## Unity Server Requirements
+**Hardware**:
  - 2 cores of CPU
  - 8 GB of RAM 
  - 256 GB of Disk space
 
 **Base Operating System**: [Ubuntu Server](https://ubuntu.com/download/server)
 
-## Installation
+## Server Installation
 **Detection Platform**: We will use Elastic Security for our lab.
 ### **Elasticsearch as Database**
 - [Installing elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html#install-deb)
@@ -63,7 +65,7 @@ sudo systemctl start kibana.service
 - Fill your credentials and enter
 - And click on "Explore on my own"
 
-### Fleet Server as Agent Management
+### Fleet Server as Collectors Management
 [Installing Fleet Server](https://www.elastic.co/guide/en/fleet/current/install-fleet-managed-elastic-agent.html#elastic-agent-installation-steps): After logging into kibana, follow these steps to install fleet server.
 - ☰ > Management > Fleet > Agents > Add a Fleet Server
 - Fill Name and URL
@@ -87,7 +89,7 @@ curl -XGET -k 'https://<HOST-IP>:8220/api/status'
 # > {"name":"fleet-server","status":"HEALTHY"}
 ```
 
-## Integration
+## Collector Integration
 - [Installing Elastic Agent](https://www.elastic.co/guide/en/fleet/current/install-fleet-managed-elastic-agent.html#elastic-agent-installation-steps)
 ### For Windows
 - ☰ > Management > Fleet > Agents > Add agent
@@ -113,7 +115,7 @@ sudo ./elastic-agent install --url=https://<HOST-IP>:8220 --enrollment-token=***
 # > Elastic Agent has been successfully installed.
 ```
 
-## Testing
+## UNITY Results
 - Finally, we will have the following result
 - ☰ > Management > Fleet > Agents
 ![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/acf29dbf-b0ea-4116-a90d-1a98e64a7f94)

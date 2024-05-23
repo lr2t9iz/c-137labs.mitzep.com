@@ -19,7 +19,7 @@ title: c-137 Lab # the main title
 tagline: by lr2t9iz # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  A minimal, responsive and feature-rich Jekyll theme for technical writing.
+  Explore C-137 Lab for insights into the latest cybersecurity attack trends, simulated cyber tactics and techniques, and advanced threat hunting. Join our engaging cybersecurity explorations!
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.
@@ -38,8 +38,8 @@ social:
   email: example@domain.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your twitter homepage
-    - https://github.com/username # change to your github homepage
+    - https://twitter.com/lr2t9iz # change to your twitter homepage
+    - https://github.com/lr2t9iz # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
