@@ -1,5 +1,5 @@
 ---
-title: Building a Cybersecurity Detection Lab - UNITY
+title: Building UN1TY, a Cybersecurity Detection Lab
 date: 2024-05-23 06:00:00 -0600
 categories: [blueteam, tools]
 tags: [monitoring, low, dev]
@@ -11,7 +11,7 @@ In cybersecurity, having an efficient detection platform is critical to identify
 
 ![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/01fe11b4-84c5-4d0e-abb1-5938977ac6bc)
 
-## Unity Server Requirements
+## UN1TY Server Requirements
 **Hardware**:
  - 2 cores of CPU
  - 8 GB of RAM 
@@ -19,7 +19,7 @@ In cybersecurity, having an efficient detection platform is critical to identify
 
 **Base Operating System**: [Ubuntu Server](https://ubuntu.com/download/server)
 
-## Server Installation
+## UN1TY Installation
 **Detection Platform**: We will use Elastic Security for our lab.
 ### **Elasticsearch as Database**
 - [Installing elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html#install-deb)
@@ -115,7 +115,7 @@ sudo ./elastic-agent install --url=https://<HOST-IP>:8220 --enrollment-token=***
 # > Elastic Agent has been successfully installed.
 ```
 
-## UNITY Results
+## UN1TY Results
 - Finally, we will have the following result
 - ☰ > Management > Fleet > Agents
 ![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/acf29dbf-b0ea-4116-a90d-1a98e64a7f94)
