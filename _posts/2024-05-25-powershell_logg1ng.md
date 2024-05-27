@@ -48,7 +48,9 @@ Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational" `
 ![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/aea657fe-259a-4531-8184-f7fb7a5a7af9)
 
 ## Detection
-Search for the event in the SIEM, [if you don't have a siem yet, check out Wazuh S1EM](https://c-137lab.com/posts/wazuh-s1em/).
+To do the detection we must have a S1EM ready. if you don't have it yet you can create it following these steps, [Wazuh S1EM](https://c-137lab.com/posts/wazuh-s1em/)
+
+Search for the event in the S1EM
 - Wazuh ﹀ Modules > Security events
 - Put the following query in the search bar and click on ***Update***
 ```
@@ -61,7 +63,20 @@ data.win.system.channel:"Microsoft-Windows-PowerShell/Operational" AND data.win.
 ![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/9950b028-c737-4e8d-bf2f-9d13f5764ad2)
 ![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/0f575891-63e5-4167-9343-6532bb7b5d95)
 - To receive an alert we will modify the rule, id 91837.
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/1e5b88a8-396a-4726-a31e-ac5c89315577)
+
+```xml
+<!-- aaa_w1n_overwrite.xml rule file + + + + + -->
+<group name="al3rt,">
+  <rule id="91837" level="4" overwrite="yes">
+    <if_sid>91802</if_sid>
+    <field name="win.eventdata.scriptBlockText" type="pcre2">(?i)(Get-Content.+\-Stream|IEX|Invoke-Expresion)</field>
+    <group>windows,powershell,</group>
+    <description>Powershell executed "Get-Content -Stream or Invoke-Expresion". Possible string execution as code</description>
+    <options>no_full_log</options>
+    <mitre> <id>T1059.001</id> </mitre>
+  </rule>
+</group>
+```
 - The rule is located in the [following repository](https://github.com/lr2t9iz/wazuh-usecases-integrator/tree/main/windows/detection-rules).
 - As a result, we will receive a slack alert to detect the powershell execution.
 ![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/db84acbf-8dcb-4c13-b183-7e560faa7622)
