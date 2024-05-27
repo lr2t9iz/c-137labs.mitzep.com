@@ -48,7 +48,7 @@ Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational" `
 ![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/aea657fe-259a-4531-8184-f7fb7a5a7af9)
 
 ## Detection
-Search for the event in the [S1EM](https://c-137lab.com/posts/wazuh-s1em/).
+Search for the event in the SIEM, [if you don't have a siem yet, check out Wazuh S1EM](https://c-137lab.com/posts/wazuh-s1em/).
 - Wazuh ﹀ Modules > Security events
 - Put the following query in the search bar and click on ***Update***
 ```
