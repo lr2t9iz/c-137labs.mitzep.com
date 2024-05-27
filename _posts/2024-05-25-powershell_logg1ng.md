@@ -1,8 +1,8 @@
 ---
 title: Detecting Malicious Script Execution in PowerShell
 date: 2024-05-25 06:00:00 -0600
-categories: [blueteam, simulation]
-tags: [detection, difficulty:low, prod]
+categories: [blueteam, detection]
+tags: [difficulty:low, endpoint, os:windows]
 image:
   path: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/3d7c8a9b-d0d6-4a44-9078-b62956a3ac16
 ---
@@ -21,7 +21,7 @@ _[@elasticseclabs](https://x.com/elasticseclabs/status/1792932108073132451)_
 _Source: Elastic Security Labs **Download and Excecute a PowerShell Script**_
 
 ## Collection
-Enabling PowerShell logging is crucial for effective detection of malicious activities. By default, Windows has PowerShell logging disabled, which can hinder our ability to monitor and respond to threats. By configuring detailed logging, we can capture information about every script block, module, and command executed in PowerShell.
+Enabling PowerShell logging is crucial for effective detection of malicious activities. By default, Windows has PowerShell logging disabled, which can hinder our ability to monitor and respond to threats. By configuring detailed logging, we can capture information about every **script block** and **command** executed in PowerShell.
 - Open a PowerShell as **Administrator** and run the following commands
 ```powershell
 $basePath = "HKLM:\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging"
@@ -41,8 +41,27 @@ powershell "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubuse
 To look up for malicious script execution, we will use the following PowerShell command to query the event logs.
 ```powershell
 Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational" `
--FilterXPath '*[System[EventID=4104]]' `
+-FilterXPath '*[System[EventID=4104]]' | Sort-Object -Property TimeCreated `
 | Where-Object {$_.ToXml().Contains("hello_world")} | fl
 ```
 - Result
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/047213b9-e246-4ad8-9e58-a9db21f0173b)
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/aea657fe-259a-4531-8184-f7fb7a5a7af9)
+
+## Detection
+Search for the event in the [S1EM](https://c-137lab.com/posts/wazuh-s1em/).
+- Wazuh ﹀ Modules > Security events
+- Put the following query in the search bar and click on ***Update***
+```
+data.win.system.channel:"Microsoft-Windows-PowerShell/Operational" AND data.win.system.message:*hello_world*
+```
+- Query Result
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/614fe54e-94cc-471f-b10d-493586481e1f)
+- To see the content of the script, click on the ***+ sign*** of the processID.
+
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/9950b028-c737-4e8d-bf2f-9d13f5764ad2)
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/0f575891-63e5-4167-9343-6532bb7b5d95)
+- To receive an alert we will modify the rule, id 91837.
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/1e5b88a8-396a-4726-a31e-ac5c89315577)
+- The rule is located in the [following repository](https://github.com/lr2t9iz/wazuh-usecases-integrator/tree/main/windows/detection-rules).
+- As a result, we will receive a slack alert to detect the powershell execution.
+![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/db84acbf-8dcb-4c13-b183-7e560faa7622)
