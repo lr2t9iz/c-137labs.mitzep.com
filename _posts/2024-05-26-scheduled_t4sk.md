@@ -1,6 +1,6 @@
 ---
 title: Hunting Malicious Activity in Scheduled Task
-date: 2024-05-26 06:00:00 -0600
+date: 2024-05-30 06:00:00 -0600
 categories: [blueteam, hunting]
 tags: [difficulty:low, endpoint, os:windows]
 image:
