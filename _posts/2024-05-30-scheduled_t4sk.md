@@ -4,7 +4,7 @@ date: 2024-05-30 06:00:00 -0600
 categories: [blueteam, hunting]
 tags: [difficulty:low, endpoint, os:windows]
 image:
-  path: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/01a0f58c-c82f-4675-9486-cef48ff1fa0f
+  path: https://github.com/lr2t9iz/c-137labs.mitzep.com/assets/46981088/01a0f58c-c82f-4675-9486-cef48ff1fa0f
 ---
 
 When we talk about hunting in cybersecurity, it's likely that the first thing that comes to mind is querying a SIEM, our security event database. But what happens when the SIEM was implemented after the adversary had already configured a malicious scheduled task? This scenario presents a significant challenge, as the threat may be latent and operational without being detected by our latest monitoring tools.
@@ -30,7 +30,7 @@ Open cmd as adminsitrator and run the following command to view all scheduled ta
 schtasks /query
 ```
 - Task list
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/711624ee-437b-4f2a-ad82-9b7323a476a7)
+![image](https://github.com/lr2t9iz/c-137labs.mitzep.com/assets/46981088/711624ee-437b-4f2a-ad82-9b7323a476a7)
 - We can also filter the tasks that are active, by task name, and to get more detail of the task with the following commands.
 
 ```batch
@@ -45,7 +45,7 @@ REM more details
 schtasks /query /tn "T1053_005_OnStartup" /xml
 ```
 - The fields to pay attention to are trigger and action
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/9382eddc-7a64-417c-9274-8afae78b9e58)
+![image](https://github.com/lr2t9iz/c-137labs.mitzep.com/assets/46981088/9382eddc-7a64-417c-9274-8afae78b9e58)
 - In the **Triggers** section we see **BootTrigger** which defines the trigger of the task, in this case is configured to be activated at system startup.
 - In the **Actions** section we see that it executes **cmd** with argument **/c calc.exe**
 
@@ -55,7 +55,7 @@ Open PowerShell as adminsitrator and run the following command to view all sched
 Get-ScheduledTask
 ```
 - Task list
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/47a78e66-4821-49f8-bbed-3066cd6e4fef)
+![image](https://github.com/lr2t9iz/c-137labs.mitzep.com/assets/46981088/47a78e66-4821-49f8-bbed-3066cd6e4fef)
 - We can also make the same filters as with cmd
 
 ```powershell
@@ -70,7 +70,7 @@ Get-ScheduledTask | ? TaskName -eq T1053_005_OnStartup
 (Get-ScheduledTask | ? TaskName -eq "T1053_005_OnStartup").actions | fl Execute, Arguments
 ```
 - Task details
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/c5d0e7c2-ce9d-485f-a9c9-cff7c3feaade)
+![image](https://github.com/lr2t9iz/c-137labs.mitzep.com/assets/46981088/c5d0e7c2-ce9d-485f-a9c9-cff7c3feaade)
 - We have the same result as in cmd with the difference of the name of the trigger object.
 
 ### With Osquery
@@ -95,7 +95,7 @@ SELECT path, name, state FROM scheduled_tasks WHERE state != "disabled";
 SELECT path, enabled, state, action, last_run_time, last_run_message FROM scheduled_tasks WHERE name == "T1053_005_OnStartup";
 ```
 - Task list
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/77a04a5f-dcaa-4a72-a0e2-3bcbf275e368)
+![image](https://github.com/lr2t9iz/c-137labs.mitzep.com/assets/46981088/77a04a5f-dcaa-4a72-a0e2-3bcbf275e368)
 - The disadvantage we have with osquery it does not get the bootrigger object, but we can see when it was last executed in unix timestamps format and the last message result.
 
 ## Collection & Detection
@@ -104,7 +104,7 @@ By default windows does not have task scheduler logs enabled, to enable them, ru
 wevtutil sl Microsoft-Windows-TaskScheduler/Operational /enabled:true
 ```
 - With the configuration of groups and rules of the [S1EM](https://c-137lab.com/posts/wazuh-s1em/) we obtain the following result
-![image](https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/06d563d5-2a79-4383-8e07-e05f440d2917)
+![image](https://github.com/lr2t9iz/c-137labs.mitzep.com/assets/46981088/06d563d5-2a79-4383-8e07-e05f440d2917)
 
 Although with this method we can only see the name of the task, to view the trigger and action of the task, we will apply the detailed techniques mentioned earlier. By combining these approaches, we can effectively uncover and analyze scheduled tasks, ensuring our infrastructure remains secure against hidden threats.
 

@@ -14,7 +14,7 @@ timezone: America/Guatemala
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: c-137 Lab # the main title
+title: c-137 Labs # the main title
 
 tagline: by lr2t9iz # it will display as the sub-title
 
@@ -73,7 +73,7 @@ theme_mode: # [light|dark]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://github.com/lr2t9iz/lr2t9iz.github.io/assets/46981088/2e4981c5-f526-4cba-a8c4-4275f6c63cfc
+avatar: https://github.com/lr2t9iz/c-137labs.mitzep.com/assets/46981088/2e4981c5-f526-4cba-a8c4-4275f6c63cfc
 
 # boolean type, the global switch for TOC in posts.
 toc: true
